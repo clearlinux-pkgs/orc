@@ -6,7 +6,7 @@
 #
 Name     : orc
 Version  : 0.4.32
-Release  : 24
+Release  : 25
 URL      : https://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz.asc
@@ -14,6 +14,7 @@ Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: orc-bin = %{version}-%{release}
+Requires: orc-filemap = %{version}-%{release}
 Requires: orc-lib = %{version}-%{release}
 Requires: orc-license = %{version}-%{release}
 BuildRequires : buildreq-meson
@@ -35,6 +36,7 @@ ORC - The Oil Runtime Compiler
 Summary: bin components for the orc package.
 Group: Binaries
 Requires: orc-license = %{version}-%{release}
+Requires: orc-filemap = %{version}-%{release}
 
 %description bin
 bin components for the orc package.
@@ -71,10 +73,19 @@ Group: Documentation
 doc components for the orc package.
 
 
+%package filemap
+Summary: filemap components for the orc package.
+Group: Default
+
+%description filemap
+filemap components for the orc package.
+
+
 %package lib
 Summary: lib components for the orc package.
 Group: Libraries
 Requires: orc-license = %{version}-%{release}
+Requires: orc-filemap = %{version}-%{release}
 
 %description lib
 lib components for the orc package.
@@ -121,25 +132,30 @@ cd %{_builddir}/orc-0.4.32
 pushd ..
 cp -a orc-0.4.32 build32
 popd
+pushd ..
+cp -a orc-0.4.32 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1600108942
+export SOURCE_DATE_EPOCH=1634254259
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain   builddir
 ninja -v -C builddir
+CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain   builddiravx2
+ninja -v -C builddiravx2
 pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
@@ -153,9 +169,9 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-meson test -C builddir
+meson test -C builddir --print-errorlogs || :
 cd ../build32;
-meson test -C builddir || :
+meson test -C builddir --print-errorlogs || : || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/orc
@@ -168,8 +184,16 @@ pushd %{buildroot}/usr/lib32/pkgconfig
 for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
 popd
+fi
+popd
+DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
 DESTDIR=%{buildroot} ninja -C builddir install
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -178,6 +202,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(-,root,root,-)
 /usr/bin/orc-bugreport
 /usr/bin/orcc
+/usr/share/clear/optimized-elf/bin*
 
 %files dev
 %defattr(-,root,root,-)
@@ -270,12 +295,17 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/gtk-doc/html/orc/up-insensitive.png
 /usr/share/gtk-doc/html/orc/up.png
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-orc
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/liborc-0.4.so.0
 /usr/lib64/liborc-0.4.so.0.32.0
 /usr/lib64/liborc-test-0.4.so.0
 /usr/lib64/liborc-test-0.4.so.0.32.0
+/usr/share/clear/optimized-elf/lib*
 
 %files lib32
 %defattr(-,root,root,-)
