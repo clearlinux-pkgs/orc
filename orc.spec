@@ -6,7 +6,7 @@
 #
 Name     : orc
 Version  : 0.4.32
-Release  : 31
+Release  : 32
 URL      : https://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz.asc
@@ -141,7 +141,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656450290
+export SOURCE_DATE_EPOCH=1661265092
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -175,7 +175,7 @@ meson test -C builddir --print-errorlogs || : || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/orc
-cp %{_builddir}/orc-0.4.32/COPYING %{buildroot}/usr/share/package-licenses/orc/91117211918b830ec63d6b8ef8c4dbd95f286c99
+cp %{_builddir}/orc-%{version}/COPYING %{buildroot}/usr/share/package-licenses/orc/91117211918b830ec63d6b8ef8c4dbd95f286c99
 pushd ../build32/
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -325,6 +325,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files staticdev
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/liborc-test-0.4.a
 /usr/lib64/liborc-test-0.4.a
 
 %files staticdev32
