@@ -1,3 +1,13 @@
+liborc-0.4.so.0:orc_arm64_emit_am
+liborc-0.4.so.0:orc_arm64_emit_bfm
+liborc-0.4.so.0:orc_arm64_emit_extr
+liborc-0.4.so.0:orc_arm64_emit_lg
+liborc-0.4.so.0:orc_arm64_emit_mem
+liborc-0.4.so.0:orc_arm64_emit_mem_pair
+liborc-0.4.so.0:orc_arm64_emit_mov_wide
+liborc-0.4.so.0:orc_arm64_emit_ret
+liborc-0.4.so.0:orc_arm64_emit_sft
+liborc-0.4.so.0:orc_arm64_reg_name
 liborc-0.4.so.0:orc_arm_add_fixup
 liborc-0.4.so.0:orc_arm_cond_name
 liborc-0.4.so.0:orc_arm_do_fixups
@@ -144,9 +154,8 @@ liborc-0.4.so.0:orc_mips_emit_swr
 liborc-0.4.so.0:orc_mips_emit_wsbh
 liborc-0.4.so.0:orc_mmx_get_cpu_flags
 liborc-0.4.so.0:orc_mmx_load_constant
-liborc-0.4.so.0:orc_neon_emit_loadib
+liborc-0.4.so.0:orc_neon64_reg_name_vector
 liborc-0.4.so.0:orc_neon_emit_loadil
-liborc-0.4.so.0:orc_neon_emit_loadiw
 liborc-0.4.so.0:orc_neon_emit_loadpb
 liborc-0.4.so.0:orc_neon_emit_loadpl
 liborc-0.4.so.0:orc_neon_emit_loadpw
