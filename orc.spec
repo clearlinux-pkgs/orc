@@ -6,11 +6,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : orc
-Version  : 0.4.33
-Release  : 37
-URL      : https://gstreamer.freedesktop.org/src/orc/orc-0.4.33.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.33.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.33.tar.xz.asc
+Version  : 0.4.34
+Release  : 38
+URL      : https://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -101,32 +101,14 @@ Group: Default
 license components for the orc package.
 
 
-%package staticdev
-Summary: staticdev components for the orc package.
-Group: Default
-Requires: orc-dev = %{version}-%{release}
-
-%description staticdev
-staticdev components for the orc package.
-
-
-%package staticdev32
-Summary: staticdev32 components for the orc package.
-Group: Default
-Requires: orc-dev = %{version}-%{release}
-
-%description staticdev32
-staticdev32 components for the orc package.
-
-
 %prep
-%setup -q -n orc-0.4.33
-cd %{_builddir}/orc-0.4.33
+%setup -q -n orc-0.4.34
+cd %{_builddir}/orc-0.4.34
 pushd ..
-cp -a orc-0.4.33 build32
+cp -a orc-0.4.34 build32
 popd
 pushd ..
-cp -a orc-0.4.33 buildavx2
+cp -a orc-0.4.34 buildavx2
 popd
 
 %build
@@ -134,7 +116,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683073091
+export SOURCE_DATE_EPOCH=1685459984
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -294,29 +276,21 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files lib
 %defattr(-,root,root,-)
 /V3/usr/lib64/liborc-0.4.so.0
-/V3/usr/lib64/liborc-0.4.so.0.33.0
+/V3/usr/lib64/liborc-0.4.so.0.34.0
 /V3/usr/lib64/liborc-test-0.4.so.0
-/V3/usr/lib64/liborc-test-0.4.so.0.33.0
+/V3/usr/lib64/liborc-test-0.4.so.0.34.0
 /usr/lib64/liborc-0.4.so.0
-/usr/lib64/liborc-0.4.so.0.33.0
+/usr/lib64/liborc-0.4.so.0.34.0
 /usr/lib64/liborc-test-0.4.so.0
-/usr/lib64/liborc-test-0.4.so.0.33.0
+/usr/lib64/liborc-test-0.4.so.0.34.0
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/liborc-0.4.so.0
-/usr/lib32/liborc-0.4.so.0.33.0
+/usr/lib32/liborc-0.4.so.0.34.0
 /usr/lib32/liborc-test-0.4.so.0
-/usr/lib32/liborc-test-0.4.so.0.33.0
+/usr/lib32/liborc-test-0.4.so.0.34.0
 
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/orc/91117211918b830ec63d6b8ef8c4dbd95f286c99
-
-%files staticdev
-%defattr(-,root,root,-)
-/usr/lib64/liborc-test-0.4.a
-
-%files staticdev32
-%defattr(-,root,root,-)
-/usr/lib32/liborc-test-0.4.a
