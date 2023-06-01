@@ -7,7 +7,7 @@
 #
 Name     : orc
 Version  : 0.4.34
-Release  : 38
+Release  : 39
 URL      : https://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz.asc
@@ -116,7 +116,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685459984
+export SOURCE_DATE_EPOCH=1685579866
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -182,8 +182,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/liborc-0.4.so
-/V3/usr/lib64/liborc-test-0.4.so
 /usr/include/orc-0.4/orc-test/orcarray.h
 /usr/include/orc-0.4/orc-test/orcprofile.h
 /usr/include/orc-0.4/orc-test/orcrandom.h
@@ -275,9 +273,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/liborc-0.4.so.0
 /V3/usr/lib64/liborc-0.4.so.0.34.0
-/V3/usr/lib64/liborc-test-0.4.so.0
 /V3/usr/lib64/liborc-test-0.4.so.0.34.0
 /usr/lib64/liborc-0.4.so.0
 /usr/lib64/liborc-0.4.so.0.34.0
