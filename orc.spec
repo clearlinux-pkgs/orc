@@ -8,11 +8,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : orc
-Version  : 0.4.35
-Release  : 41
-URL      : https://gstreamer.freedesktop.org/src/orc/orc-0.4.35.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.35.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.35.tar.xz.asc
+Version  : 0.4.36
+Release  : 42
+URL      : https://gstreamer.freedesktop.org/src/orc/orc-0.4.36.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.36.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/orc/orc-0.4.36.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -104,13 +104,13 @@ license components for the orc package.
 
 
 %prep
-%setup -q -n orc-0.4.35
-cd %{_builddir}/orc-0.4.35
+%setup -q -n orc-0.4.36
+cd %{_builddir}/orc-0.4.36
 pushd ..
-cp -a orc-0.4.35 build32
+cp -a orc-0.4.36 build32
 popd
 pushd ..
-cp -a orc-0.4.35 buildavx2
+cp -a orc-0.4.36 buildavx2
 popd
 
 %build
@@ -118,7 +118,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1706045201
+export SOURCE_DATE_EPOCH=1706305850
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -296,19 +296,19 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/liborc-0.4.so.0.35.0
-/V3/usr/lib64/liborc-test-0.4.so.0.35.0
+/V3/usr/lib64/liborc-0.4.so.0.36.0
+/V3/usr/lib64/liborc-test-0.4.so.0.36.0
 /usr/lib64/liborc-0.4.so.0
-/usr/lib64/liborc-0.4.so.0.35.0
+/usr/lib64/liborc-0.4.so.0.36.0
 /usr/lib64/liborc-test-0.4.so.0
-/usr/lib64/liborc-test-0.4.so.0.35.0
+/usr/lib64/liborc-test-0.4.so.0.36.0
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/liborc-0.4.so.0
-/usr/lib32/liborc-0.4.so.0.35.0
+/usr/lib32/liborc-0.4.so.0.36.0
 /usr/lib32/liborc-test-0.4.so.0
-/usr/lib32/liborc-test-0.4.so.0.35.0
+/usr/lib32/liborc-test-0.4.so.0.36.0
 
 %files license
 %defattr(0644,root,root,0755)
